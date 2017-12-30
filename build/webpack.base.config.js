@@ -1,14 +1,14 @@
-const path = require("path");
+const path = require('path')
 
 const config = {
   entry: {
-    app: path.resolve(__dirname, "../src/client-entry.js")
+    app: path.resolve(__dirname, '../client/src/client-entry.js')
   },
   output: {
-    path: path.resolve(__dirname, "../dist"),
-    publicPath: "/",
-    filename: "assets/js/[name].js"
-  }, 
+    path: path.resolve(__dirname, '../dist'),
+    publicPath: '/',
+    filename: 'assets/js/[name].js'
+  },
   module: {
     rules: [
       {
@@ -25,9 +25,13 @@ const config = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        loader: 'css-loader'
       }
     ]
   }
-};
+}
 
-module.exports = config;
+module.exports = config
