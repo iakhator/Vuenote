@@ -1,8 +1,9 @@
 const path = require('path')
+const webpack = require('webpack')
 
 const config = {
   entry: {
-    app: path.resolve(__dirname, '../client/src/client-entry.js')
+    app: [path.resolve(__dirname, '../app'), 'webpack-hot-middleware/client?reload=true']
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
@@ -18,6 +19,13 @@ const config = {
         exclude: /node_modules/
       },
       {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'file-loader',
+        options: {
+          objectAssign: 'Object.assign'
+        }
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader'
       },
@@ -28,10 +36,15 @@ const config = {
       },
       {
         test: /\.css$/,
-        loader: 'css-loader'
+        loader: ['style-loader', 'css-loader']
       }
     ]
-  }
+  },
+  devtool: 'inline-source-map',
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ]
 }
 
 module.exports = config
