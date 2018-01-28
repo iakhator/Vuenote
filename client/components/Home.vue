@@ -1,5 +1,14 @@
 <template>
-  <h1>{{message.message}}</h1>
+<div>
+  <v-layout row wrap>
+    <v-flex xs8 md8 xl8>
+      <v-card><img src="../assets/images/books1.jpg" alt=""></v-card>
+    </v-flex>
+    <v-flex xs4 md4 xl4>
+      <v-card-text><h1>{{message.message}}</h1></v-card-text>
+    </v-flex>
+  </v-layout>
+</div>
 </template>
 <script>
   import axios from 'axios'
@@ -19,6 +28,10 @@
     }
   }
 </script>
-<style>
+<style scoped>
+  img {
+    width: 100%;
+    height: 86vh;
+  }
 </style>
 

@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 const indexHTML = (() => {
-  return fs.readFileSync(path.resolve(__dirname, './index.html'), 'utf-8')
+  return fs.readFileSync(path.resolve(__dirname, './client/index.html'), 'utf-8')
 })()
 
 app.use(middleware)
