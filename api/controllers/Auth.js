@@ -8,16 +8,25 @@ require('dotenv').config()
 const jwtSecret = process.env.JWT_SECRET
 
 const signUp = (req, res) => {
+  const name = req.body.name
   const email = req.body.email
   const password = req.body.password
   const schema = {
+    name: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
   }
 
-  const { error, value } = Joi.validate({ email: email, password: password }, schema)
+  const { error, value } = Joi.validate({ name: name, email: email, password: password }, schema)
   if (error) {
     switch (error.details[0].context.key) {
+      case 'name':
+        if (error.details[0].type === 'any.empty') {
+          res.status(400).send({
+            error: `${error.details[0].context.key} field is required`
+          })
+        }
+        break
       case 'email':
         if (error.details[0].type === 'string.email') {
           res.status(400).send({
@@ -52,6 +61,7 @@ const signUp = (req, res) => {
         res.json({ 'message': 'An error occured' })
       } else {
         const user = new User({
+          name: name,
           email: email,
           password: hash
         })

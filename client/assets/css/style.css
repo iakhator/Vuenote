@@ -1,0 +1,14 @@
+.navigation-bar {
+  font-family: 'Nanum Pen Script', cursive;
+}
+
+.input-group--text-field label,
+.input-group__error, .btn__content {
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 20px;
+}
+
+.wrapper{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+

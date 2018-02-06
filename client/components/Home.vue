@@ -1,37 +1,50 @@
 <template>
-<div>
-  <v-layout row wrap>
-    <v-flex xs8 md8 xl8>
-      <v-card><img src="../assets/images/books1.jpg" alt=""></v-card>
-    </v-flex>
-    <v-flex xs4 md4 xl4>
-      <v-card-text><h1>{{message.message}}</h1></v-card-text>
-    </v-flex>
-  </v-layout>
-</div>
+  <div class="bg">
+    <v-container>
+      <v-layout row wrap>
+        <v-flex xs12 md6 xl8 offset-md3>
+          <i class="material-icons">{{icon}}</i>
+          <v-card-text><h1>{{message}}</h1></v-card-text>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </div>
 </template>
 <script>
-  import axios from 'axios'
   export default {
     data () {
       return {
-        message: ''
-      }
-    },
-    async created () {
-      try {
-        const response = await axios.get(`/home`)
-        this.message = response.data
-      } catch (error) {
-        this.errors.push(error)
+        message: 'Pen it down to remember',
+        icon: 'assessment'
       }
     }
   }
 </script>
 <style scoped>
-  img {
-    width: 100%;
-    height: 86vh;
+@import url('https://fonts.googleapis.com/css?family=Nanum+Pen+Script');
+  v-layout {
+    background: #ffffff;
+  }
+
+  .bg{
+    background:linear-gradient(
+      rgba(178, 223, 219, 0.2), 
+      rgba(178, 223, 219, 0.7)
+    ),url("../assets/images/books.jpg") no-repeat center fixed;
+    height: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Nanum Pen Script', cursive;
+  }
+  .bg h1{
+    font-size: 40px
+  }
+
+  .material-icons{
+    font-size: 150px;
+    margin-top: 70px;
   }
 </style>
 
