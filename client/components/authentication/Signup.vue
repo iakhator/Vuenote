@@ -65,7 +65,6 @@
   </v-container>
 </template>
 <script>
-import axios from 'axios'
 export default {
   data () {
     return {
@@ -94,14 +93,14 @@ export default {
     }
   },
   methods: {
-    async signUp () {
-      try {
-        const response = await axios.post('/signup', {name: this.name, email: this.email, password: this.password})
-        this.message = response.data.message
-        // this.$route.push('signin')
-      } catch (error) {
-        this.error = error.response.data.error
-      }
+    signUp () {
+      this.$store.dispatch('signUp', {name: this.name, email: this.email, password: this.password})
+        .then(() => {
+          this.$router.push('dashboard')
+        })
+        .catch((error) => {
+          this.error = error.response.data.error
+        })
     }
   }
 }

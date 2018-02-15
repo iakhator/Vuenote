@@ -31,13 +31,14 @@
       rgba(178, 223, 219, 0.2), 
       rgba(178, 223, 219, 0.7)
     ),url("../assets/images/books.jpg") no-repeat center fixed;
-    height: 100%;
+    height: 91vh;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
     font-family: 'Nanum Pen Script', cursive;
   }
+
   .bg h1{
     font-size: 40px
   }

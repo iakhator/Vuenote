@@ -7,6 +7,11 @@ require('dotenv').config()
 
 const jwtSecret = process.env.JWT_SECRET
 
+/**
+ * Sign up the user
+ * @param {*} req data gotten from the form
+ * @param {*} res data gotten after user signed up
+ */
 const signUp = (req, res) => {
   const name = req.body.name
   const email = req.body.email
@@ -65,15 +70,32 @@ const signUp = (req, res) => {
           email: email,
           password: hash
         })
-        user.save((error) => {
+        user.save((error, user) => {
           if (error) return res.status(400).json({ error: `${email} is already in use` })
-          res.status(200).json({ message: 'You have successfully registered' })
+          const userExist = {
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            id: user._id
+          }
+          const token = jwt.sign(userExist, jwtSecret, {
+            expiresIn: 60 * 60 * 24
+          })
+          res.status(200).json({
+            userExist,
+            token
+          })
         })
       }
     })
   }
 }
 
+/**
+ * Sign user in
+ * @param {*} req data gotten from the form
+ * @param {*} res data gotten after user signed up
+ */
 const signIn = (req, res) => {
   const email = req.body.email
   const password = req.body.password
@@ -113,6 +135,7 @@ const signIn = (req, res) => {
           if (bcrypt.compareSync(req.body.password, userExist.password)) {
             const payLoad = (
               {
+                name: userExist.name,
                 email: userExist.email,
                 password: userExist.password,
                 id: userExist._id
@@ -122,16 +145,16 @@ const signIn = (req, res) => {
               expiresIn: 60 * 60 * 24
             })
             res.status(200).json({
-              message: 'You have successfully logged in.',
+              payLoad,
               token
             })
           } else {
             res.status(401).json({
-              message: 'Authentication failed, wrong password.'
+              error: 'Authentication failed, wrong password.'
             })
           }
         } else {
-          return res.status(404).json({ message: 'That user does not exist' })
+          return res.status(404).json({ error: 'That user does not exist' })
         }
       }
     })

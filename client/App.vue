@@ -6,8 +6,10 @@
       <v-spacer></v-spacer>
       <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat :to="{name:'signup'}">{{signup}}</v-btn>
-        <v-btn flat :to="{name:'signin'}">{{signin}}</v-btn>
+        <v-btn v-if="!$store.getters.isAuthenticated" flat :to="{name:'signup'}">{{signup}}</v-btn>
+        <v-btn v-if="!$store.getters.isAuthenticated" flat :to="{name:'signin'}">{{signin}}</v-btn>
+        <v-btn v-if="$store.getters.isAuthenticated" flat>{{userDetails.name}}</v-btn>
+        <v-btn v-if="$store.getters.isAuthenticated" flat v-on:click="logOut">{{logout}}</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     </div>
@@ -22,7 +24,21 @@ export default {
     return {
       title: 'Pen it',
       signup: 'Sign Up',
-      signin: 'Sign In'
+      signin: 'Sign In',
+      logout: 'log Out',
+      userDetails: ''
+    }
+  },
+  created: function () {
+    if (this.$store.getters.userDetails) this.userDetails = this.$store.getters.userDetails
+  },
+  updated: function () {
+    if (this.$store.getters.userDetails) this.userDetails = this.$store.getters.userDetails
+  },
+  methods: {
+    logOut () {
+      this.$store.dispatch('logOut')
+      this.$router.push({name: 'home'})
     }
   }
 }

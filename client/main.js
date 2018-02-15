@@ -1,7 +1,10 @@
 import Vue from 'vue'
+import { sync } from 'vuex-router-sync'
 import App from './App.vue'
 import router from './routes'
 import store from './store'
+
+sync(store, router)
 
 const app = new Vue({
   router,
