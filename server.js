@@ -38,14 +38,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-const indexHTML = (() => {
-  return fs.readFileSync(path.resolve(__dirname, './client/index.html'), 'utf-8')
-})()
-
 app.use(middleware)
 app.use(webpackHotMiddleware(compiler))
 app.use('/dist', express.static(path.resolve(__dirname, './dist')))
 app.use('/', routes)
+
+const indexHTML = (() => {
+  return fs.readFileSync(path.resolve(__dirname, './client/index.html'), 'utf-8')
+})()
 
 // require('./build/dev-server')(app)
 

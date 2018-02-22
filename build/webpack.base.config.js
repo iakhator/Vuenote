@@ -3,7 +3,7 @@ const webpack = require('webpack')
 
 const config = {
   entry: {
-    app: [path.resolve(__dirname, '../client'), 'webpack-hot-middleware/client?reload=true']
+    app: [path.resolve(__dirname, '../client/main.js'), 'webpack-hot-middleware/client?reload=true']
   },
   output: {
     path: path.resolve(__dirname, '../dist'),

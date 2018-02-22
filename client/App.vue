@@ -2,16 +2,19 @@
   <v-app>
     <div class="navigation-bar">
       <v-toolbar color="teal lighten-2" dark>
-      <v-toolbar-title><router-link tag="button" to="/">{{title}}</router-link></v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn v-if="!$store.getters.isAuthenticated" flat :to="{name:'signup'}">{{signup}}</v-btn>
-        <v-btn v-if="!$store.getters.isAuthenticated" flat :to="{name:'signin'}">{{signin}}</v-btn>
-        <v-btn v-if="$store.getters.isAuthenticated" flat>{{userDetails.name}}</v-btn>
-        <v-btn v-if="$store.getters.isAuthenticated" flat v-on:click="logOut">{{logout}}</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
+        <v-toolbar-title><router-link tag="button" to="/">{{title}}</router-link></v-toolbar-title>
+        <v-toolbar-items class="hidden-sm-and-down" mr-2>
+           <v-btn v-if="$store.getters.isAuthenticated" flat><i class="material-icons">note_add</i>{{note}}</v-btn>
+        </v-toolbar-items>
+        <v-spacer></v-spacer>
+        <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn v-if="!$store.getters.isAuthenticated" flat :to="{name:'signup'}">{{signup}}</v-btn>
+          <v-btn v-if="!$store.getters.isAuthenticated" flat :to="{name:'signin'}">{{signin}}</v-btn>
+          <v-btn v-if="$store.getters.isAuthenticated" flat>{{userDetails.name}}</v-btn>
+          <v-btn v-if="$store.getters.isAuthenticated" flat v-on:click="logOut">{{logout}}</v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
     </div>
     <div class="wrapper">
       <router-view></router-view>
@@ -26,6 +29,7 @@ export default {
       signup: 'Sign Up',
       signin: 'Sign In',
       logout: 'log Out',
+      note: 'Take Note',
       userDetails: ''
     }
   },

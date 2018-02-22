@@ -4,12 +4,17 @@ import App from './App.vue'
 import router from './routes'
 import store from './store'
 
+import 'vuetify/dist/vuetify.min.css'
+import './assets/css/style.css'
+
 sync(store, router)
 
-const app = new Vue({
-  router,
-  store,
-  ...App
-})
+Vue.config.productionTip = false
 
-export { app, router }
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  store,
+  router,
+  render: h => h(App)
+})
