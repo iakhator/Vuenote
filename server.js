@@ -1,5 +1,4 @@
 const express = require('express')
-const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 const mongoose = require('mongoose')
@@ -43,15 +42,8 @@ app.use(webpackHotMiddleware(compiler))
 app.use('/dist', express.static(path.resolve(__dirname, './dist')))
 app.use('/', routes)
 
-const indexHTML = (() => {
-  return fs.readFileSync(path.resolve(__dirname, './client/index.html'), 'utf-8')
-})()
-
-// require('./build/dev-server')(app)
-
 app.get('*', (req, res) => {
-  res.write(indexHTML)
-  res.end()
+  res.sendFile(path.join(__dirname, './client/index.html'))
 })
 
 const port = process.env.PORT || 4000

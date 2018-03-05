@@ -5,7 +5,10 @@ import store from '../store'
 import Signup from '../components/authentication/Signup.vue'
 import Signin from '../components/authentication/Signin.vue'
 import Dashboard from '../components/Dashboard.vue'
+import CreateNote from '../components/CreateNote.vue'
 import Home from '../components/Home.vue'
+import Note from '../components/Note.vue'
+import EditNote from '../components/EditNote.vue'
 
 Vue.use(VueRouter)
 Vue.use(Vuetify)
@@ -51,6 +54,26 @@ const router = new VueRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/create',
+      name: 'newnote',
+      component: CreateNote,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/note/:id',
+      name: 'note',
+      component: Note,
+      props: true,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/edit/:id',
+      name: 'editNote',
+      component: EditNote,
+      props: true,
       beforeEnter: ifAuthenticated
     }
   ]

@@ -4,7 +4,20 @@
       <v-toolbar color="teal lighten-2" dark>
         <v-toolbar-title><router-link tag="button" to="/">{{title}}</router-link></v-toolbar-title>
         <v-toolbar-items class="hidden-sm-and-down" mr-2>
-           <v-btn v-if="$store.getters.isAuthenticated" flat><i class="material-icons">note_add</i>{{note}}</v-btn>
+           <v-card-text style="height: 100px">
+            <v-btn
+              v-if="$store.getters.isAuthenticated"
+              absolute
+              dark
+              fab
+              right
+              :to="{name:'newnote'}"
+              class="float-button"
+              color="pink"
+            >
+              <v-icon>add</v-icon>
+            </v-btn>
+          </v-card-text>
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
@@ -29,7 +42,6 @@ export default {
       signup: 'Sign Up',
       signin: 'Sign In',
       logout: 'log Out',
-      note: 'Take Note',
       userDetails: ''
     }
   },
@@ -51,6 +63,10 @@ export default {
 <style scoped>
  button{
    font-size: 40px
+ }
+ .float-button{
+   margin-right: 0.5em;
+   margin-top: 3em;
  }
 </style>
 

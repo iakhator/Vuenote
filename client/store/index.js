@@ -9,7 +9,10 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    token: localStorage.getItem('user-token') || null
+    token: localStorage.getItem('user-token') || null,
+    notes: null,
+    message: '',
+    error: null
   },
   mutations: {
     signIn (state, payload) {
@@ -18,8 +21,19 @@ const store = new Vuex.Store({
     signUp (state, payload) {
       state.token = payload
     },
-    logOut (state) {
-      state.token = null
+    addNote (state, payload) {
+      state.message = payload.message
+      state.error = null
+    },
+    getError (state, payload) {
+      state.error = payload.error
+      state.message = ''
+    },
+    getNotes (state, payload) {
+      state.notes = payload
+    },
+    logOut (state, payload) {
+      state.token = payload
     }
   },
   getters: {
@@ -34,6 +48,15 @@ const store = new Vuex.Store({
         }
       }
       return null
+    },
+    getNotes: (state) => {
+      return state.notes
+    },
+    getMessage: (state) => {
+      return state.message
+    },
+    getError: (state) => {
+      return state.error
     }
   },
   actions: {
@@ -53,10 +76,26 @@ const store = new Vuex.Store({
           context.commit('signUp', response.data.token)
         })
     },
+    getNotes (context) {
+      return axios.get('/notes')
+        .then((response) => {
+          const notes = response.data.notes
+          context.commit('getNotes', notes)
+        })
+    },
+    addNote (context, payload) {
+      return axios.post('/addnote', payload)
+        .then((response) => {
+          context.commit('addNote', response.data)
+        })
+        .catch((error) => {
+          context.commit('getError', error.response.data)
+        })
+    },
     logOut (context) {
       localStorage.removeItem('user-token')
       delete axios.defaults.headers.common['Authorization']
-      context.commit('logOut')
+      context.commit('logOut', null)
     }
   }
 })

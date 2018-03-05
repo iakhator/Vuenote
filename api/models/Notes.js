@@ -15,15 +15,9 @@ const NoteSchema = new Schema({
   note: {
     type: String,
     required: true
-  },
-  divider: {
-    type: String,
-    default: true
-  },
-  inset: {
-    type: String,
-    default: true
   }
+}, {
+  timestamps: true
 })
 
 const Note = mongoose.model('Note', NoteSchema)

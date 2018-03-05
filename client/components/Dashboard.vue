@@ -4,49 +4,81 @@
       <v-flex md3 xl4 mr-5>
         <side-bar :handleClick="onClick" />
       </v-flex>
-      <v-flex md8 xl8>
+      <v-flex  v-if="getNotes" md8 xl8>
         <v-card>
-        <v-toolbar color="teal lighten-2" dark>
-          <v-toolbar-title> All Notes</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-btn icon>
-            <v-icon>search</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-list two-line>
-          <template v-for="(item, index) in items">
-            <v-subheader v-if="item.header" :key="item.header">{{ item.header }}</v-subheader>
-            <v-divider v-else-if="item.divider" :inset="item.inset" :key="index"></v-divider>
-            <v-list-tile avatar v-else :key="item.title" @click="onClick">
-              <v-list-tile-content>
-                <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </template>
-        </v-list>
-      </v-card>
+          <div v-if="message">
+              <v-snackbar
+                :timeout="timeout"
+                :top="y === 'top'"
+                :multi-line="mode === 'multi-line'"
+                :vertical="mode === 'vertical'"
+                v-model="snackbar"
+              >
+                {{ message }}
+                <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
+              </v-snackbar>
+            </div>
+          <v-toolbar color="teal lighten-2" dark>
+            <v-toolbar-title> All Notes</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn icon>
+              <v-icon>search</v-icon>
+            </v-btn>
+          </v-toolbar>
+          <v-list two-line>
+            <template v-for="(item, index) in getNotes">
+              <router-link :to="{name: 'note', params: { id: item._id }}" tag="li" :key="index">
+                <v-list-tile avatar ripple>
+                  <v-list-tile-content>
+                    <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                    <v-list-tile-sub-title class="text--primary">{{ item.note }}</v-list-tile-sub-title>
+                    <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                  <v-list-tile-action>
+                    <v-list-tile-action-text>{{ item.createdAt | date }}</v-list-tile-action-text>
+                    <v-icon color="grey lighten-1">star_border</v-icon>
+                  </v-list-tile-action>
+                </v-list-tile>
+              </router-link>
+              <v-divider v-if="index + 1 < getNotes.length" :key="`divider-${index}`"></v-divider>
+            </template>
+          </v-list>
+        </v-card>
+      </v-flex>
+      <v-flex v-else  md8 xl8>
+        <h4 class="text-xs-center mt-5">No Notes Available</h4>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
+
 <script>
 import SideBar from './SideBar.vue'
 export default {
+  data () {
+    return {
+      snackbar: false,
+      mode: '',
+      message: '',
+      y: 'top',
+      timeout: 6000
+    }
+  },
   components: {
     SideBar
   },
-  data () {
-    return {
-      items: [
-        { header: 'Today' },
-        { title: 'Brunch this weekend?', subtitle: "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?" },
-        { divider: true, inset: true },
-        { title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>', subtitle: "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend." },
-        { divider: true, inset: true },
-        { title: 'Oui oui', subtitle: "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?" }
-      ]
+  computed: {
+    getNotes () {
+      return this.$store.getters.getNotes
+    },
+    getMessage () {
+      this.message = this.$store.getters.getMessage
     }
+  },
+  created: function () {
+    this.$store.dispatch('getNotes').then(() => {
+      return this.$store.getters.getNotes
+    })
   },
   methods: {
     onClick () {
@@ -55,5 +87,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+h4{
+  font-size: larger;
+}
+</style>
+
 
 

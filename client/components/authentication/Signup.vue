@@ -71,7 +71,7 @@ export default {
       snackbar: false,
       mode: '',
       y: 'top',
-      timeout: 6000,
+      timeout: 5000,
       message: null,
       error: null,
       valid: false,
